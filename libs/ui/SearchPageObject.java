@@ -2,6 +2,7 @@ package libs.ui;
 
 import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 public class SearchPageObject extends MainPageObject{
 
@@ -12,7 +13,8 @@ public class SearchPageObject extends MainPageObject{
     SEARCH_RESULT_BY_SUBSTRING_TPL = "//android.widget.TextView[@resource-id=\"org.wikipedia:id/page_list_item_title\" and @text='{SUBSTRING}']",
 
     SEARCH_RESULT_ELEMENT = "//android.widget.ImageView[@resource-id=\"org.wikipedia:id/page_list_item_image\"]",
-    SEARCH_EMPTY_RESULT_ELEMENT = "//*[@text, 'No results']";
+    SEARCH_EMPTY_RESULT_ELEMENT = "//*[@text, 'No results']",
+    SEARCH_RESULTS_LIST = "//androidx.recyclerview.widget.RecyclerView[@resource-id='org.wikipedia:id/search_results_list']";
 
 //"Java (programming language)"
 
@@ -76,6 +78,13 @@ public class SearchPageObject extends MainPageObject{
     public void assertThereIsNoResultOfSearch() {
         this.assertElementNotPresent(By.xpath(SEARCH_RESULT_ELEMENT), "we supposed not to find any results");
     }
+
+    public void waitForListResult() {
+        waitForElementPresent(By.xpath(SEARCH_RESULTS_LIST),
+                "Cannot find search result list", 5);
+    }
+
+
 
 
 }

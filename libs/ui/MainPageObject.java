@@ -17,6 +17,12 @@ import java.util.List;
 
 public class MainPageObject {
     protected AppiumDriver driver;
+    private static String
+            ONBORDING_SKIP_BUTTON = "//android.widget.Button[@resource-id=\"org.wikipedia:id/fragment_onboarding_skip_button\"]",
+            ONBORDING_FOR_SWIPE = "//android.widget.TextView[@resource-id=\"org.wikipedia:id/primaryTextView\"]",
+            ONBORDING_ACCEPT_BUTTON = "//android.widget.Button[@resource-id=\"org.wikipedia:id/acceptButton\"]",
+            MAIN_PAGE = "//android.widget.ImageView[@resource-id=\"org.wikipedia:id/main_toolbar_wordmark\"]";
+
     public MainPageObject(AppiumDriver driver) {
         this.driver = driver;
     }
@@ -104,9 +110,27 @@ public class MainPageObject {
     }
 
     public void skipOnboarding() {
-        waitForElementAndClick(By.xpath("//android.widget.Button[@resource-id=\"org.wikipedia:id/fragment_onboarding_skip_button\"]"),
+        waitForElementAndClick(By.xpath(ONBORDING_SKIP_BUTTON),
                 "Cannot find skip button in Onboarding",
                 5);
+    }
+
+    public void swipeOnbording() {
+        swipeElementToLeft(
+                By.xpath(ONBORDING_FOR_SWIPE),
+                "Main page of Onbording not found");
+    }
+
+    public void clickAcceptButtonOnOnbording() {
+        waitForElementAndClick(
+                By.xpath(ONBORDING_ACCEPT_BUTTON),
+                "Button Accept not found",
+                10);
+    }
+
+    public boolean assertMainPagePresent() {
+        WebElement element = waitForElementPresent(By.xpath(MAIN_PAGE), "Main page not found", 5);
+        return element.isEnabled();
     }
 
     public int getAmountOfElements(By by) {

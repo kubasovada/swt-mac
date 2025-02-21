@@ -15,7 +15,8 @@ public class ArticlePageObject extends MainPageObject {
     OK_BUTTON_IN_MODAL = "//android.widget.Button[@resource-id=\"android:id/button1\"]",
     NAVIGATE_BACK = "//android.widget.ImageButton[@content-desc=\"Navigate up\"]",
     CLEAR_QUERY = "//android.widget.ImageView[@content-desc=\"Clear query\"]",
-    CLICK_TO_CLOSE_KEYBORD_MP = "//android.widget.ImageView[@resource-id=\"org.wikipedia:id/view_announcement_header_image\"]";
+    CLICK_TO_CLOSE_KEYBORD_MP = "//android.widget.ImageView[@resource-id=\"org.wikipedia:id/view_announcement_header_image\"]",
+    SEARCH_EMPTY_MESSAGE = "//android.widget.TextView[@resource-id='org.wikipedia:id/search_empty_message']";
 
 
     public ArticlePageObject(AppiumDriver driver) {
@@ -70,6 +71,17 @@ public class ArticlePageObject extends MainPageObject {
         this.waitForElementAndClick(By.xpath(CLICK_TO_CLOSE_KEYBORD_MP),
                 "pict",
                 5);
+    }
+
+    public String getTextFromElement() {
+        WebElement element  = waitForElementPresent(By.xpath(SEARCH_EMPTY_MESSAGE),
+                "Cannot find search empty message", 15);
+        return element.getText();
+    }
+
+    public boolean assertElementPresent() {
+        WebElement element = driver.findElement(By.xpath(TITLE));
+        return element.isEnabled();
     }
 
 }
