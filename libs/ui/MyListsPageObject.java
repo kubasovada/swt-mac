@@ -5,9 +5,9 @@ import org.openqa.selenium.By;
 
 public class MyListsPageObject extends MainPageObject{
     public static final String
-    MODAL = "//android.widget.Button[@resource-id=\"org.wikipedia:id/negativeButton\"]",
-    FOLDER_NAME_TMPL = "//android.widget.TextView[@resource-id=\"org.wikipedia:id/item_title\" and @text='{FOLDER_NAME}']",
-    ARTICLE_TITLE_TMPL = "//*[@text='{TITLE}']";
+    MODAL = "xpath://android.widget.Button[@resource-id=\"org.wikipedia:id/negativeButton\"]",
+    FOLDER_NAME_TMPL = "xpath://android.widget.TextView[@resource-id=\"org.wikipedia:id/item_title\" and @text='{FOLDER_NAME}']",
+    ARTICLE_TITLE_TMPL = "xpath://*[@text='{TITLE}']";
 
     //Java (programming language)
     public MyListsPageObject(AppiumDriver driver) {
@@ -25,27 +25,27 @@ public class MyListsPageObject extends MainPageObject{
 
     public void openFolderByName(String folderName) {
         String folderNameXPath = getFolderXpathWithName(folderName);
-        this.waitForElementAndClick(By.xpath(MODAL), "not now", 5);
-        this.waitForElementAndClick(By.xpath(folderNameXPath),
+        this.waitForElementAndClick(MODAL, "not now", 5);
+        this.waitForElementAndClick(folderNameXPath,
                 "Cannot find folder name" + folderName, 5);
     }
 
     public void waitForArticleToAppear(String articleTitle) {
         String articleXpath = getSavedArticleXPathByTitle(articleTitle);
-        this.waitForElementPresent(By.xpath(articleXpath), "Saved article not present with title " + articleTitle, 15);
+        this.waitForElementPresent(articleXpath, "Saved article not present with title " + articleTitle, 15);
 
     }
 
     public void waitForArticleToDisappear(String articleTitle) {
         String articleXpath = getSavedArticleXPathByTitle(articleTitle);
-        this.waitForElementNotPresent(By.xpath(articleXpath), "Saved article still present with title " + articleTitle, 15);
+        this.waitForElementNotPresent(articleXpath, "Saved article still present with title " + articleTitle, 15);
 
     }
 
     public void swipeByArticleToDelete(String articleTitle) {
         String articleXpath = getSavedArticleXPathByTitle(articleTitle);
         this.waitForArticleToAppear(articleTitle);
-        this.swipeElementToLeft(By.xpath(articleXpath), "Cannot find saved article");
+        this.swipeElementToLeft(articleXpath, "Cannot find saved article");
         this.waitForArticleToDisappear(articleTitle);
     }
 
