@@ -1,6 +1,7 @@
 import libs.CoreTestCase;
 import libs.ui.ArticlePageObject;
 import libs.ui.SearchPageObject;
+import libs.ui.factories.SearchPageObjectFactory;
 import org.junit.Test;
 
 
@@ -11,7 +12,7 @@ public class Lesson3Ex3 extends CoreTestCase {
 
         String searchLine = "Java";
 
-        SearchPageObject searchPageObject = new SearchPageObject(driver);
+        SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.initSearchInput();
         searchPageObject.typeSearchLine(searchLine);
         searchPageObject.waitForListResult();

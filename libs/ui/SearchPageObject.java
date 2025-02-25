@@ -4,17 +4,16 @@ import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-public class SearchPageObject extends MainPageObject{
+abstract public class SearchPageObject extends MainPageObject{
 
-    private static final String
-    SEARCH_INIT_ELEMENT = "xpath://android.widget.TextView[@text=\"Search Wikipedia\"]",
-    SEARCH_INPUT = "xpath://android.widget.EditText[@resource-id=\"org.wikipedia:id/search_src_text\"]",
-    SEARCH_CANCEL_BUTTON = "xpath://android.widget.ImageView[@content-desc=\"Clear query\"]",
-    SEARCH_RESULT_BY_SUBSTRING_TPL = "xpath://android.widget.TextView[@resource-id=\"org.wikipedia:id/page_list_item_title\" and @text='{SUBSTRING}']",
-
-    SEARCH_RESULT_ELEMENT = "xpath://android.widget.ImageView[@resource-id=\"org.wikipedia:id/page_list_item_image\"]",
-    SEARCH_EMPTY_RESULT_ELEMENT = "xpath://*[@text, 'No results']",
-    SEARCH_RESULTS_LIST = "xpath://androidx.recyclerview.widget.RecyclerView[@resource-id='org.wikipedia:id/search_results_list']";
+    protected static String
+    SEARCH_INIT_ELEMENT,
+    SEARCH_INPUT,
+    SEARCH_CANCEL_BUTTON,
+    SEARCH_RESULT_BY_SUBSTRING_TPL,
+    SEARCH_RESULT_ELEMENT,
+    SEARCH_EMPTY_RESULT_ELEMENT,
+    SEARCH_RESULTS_LIST;
 
 //"Java (programming language)"
 

@@ -5,6 +5,7 @@ import libs.ui.ArticlePageObject;
 import libs.ui.MyListsPageObject;
 import libs.ui.NavigationUI;
 import libs.ui.SearchPageObject;
+import libs.ui.factories.SearchPageObjectFactory;
 import org.junit.Test;
 
 public class MyListsTests extends CoreTestCase {
@@ -15,7 +16,7 @@ public class MyListsTests extends CoreTestCase {
         String articleTitleFirst = "Java (programming language)";
         String folderName = "List";
 
-        SearchPageObject searchPageObject = new SearchPageObject(driver);
+        SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.initSearchInput();
         searchPageObject.typeSearchLine("Java");
         searchPageObject.clickByArticleWithSubstring(articleTitleFirst);

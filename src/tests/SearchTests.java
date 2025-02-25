@@ -2,6 +2,7 @@ package src.tests;
 
 import libs.CoreTestCase;
 import libs.ui.SearchPageObject;
+import libs.ui.factories.SearchPageObjectFactory;
 import org.junit.Test;
 
 public class SearchTests extends CoreTestCase {
@@ -9,7 +10,7 @@ public class SearchTests extends CoreTestCase {
     @Test
     public void testSearch()  {
 
-        SearchPageObject searchPageObject = new SearchPageObject(driver);
+        SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.initSearchInput();
         searchPageObject.typeSearchLine("Java");
         searchPageObject.waitForSearchResult("Java (programming language)");
@@ -18,7 +19,7 @@ public class SearchTests extends CoreTestCase {
     @Test
     public void secondTest() {
 
-        SearchPageObject searchPageObject = new SearchPageObject(driver);
+        SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.initSearchInput();
         searchPageObject.typeSearchLine("Java");
     }
@@ -26,7 +27,7 @@ public class SearchTests extends CoreTestCase {
     @Test
     public void testCancelSearch() {
 
-        SearchPageObject searchPageObject = new SearchPageObject(driver);
+        SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.initSearchInput();
         searchPageObject.typeSearchLine("Java");
         searchPageObject.waitForCancelButtonToAppear();
@@ -40,7 +41,7 @@ public class SearchTests extends CoreTestCase {
     public void testAmountOfNotEmptySearch() {
 
         String searchLine = "Linkin Park Disco";
-        SearchPageObject searchPageObject = new SearchPageObject(driver);
+        SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.initSearchInput();
         searchPageObject.typeSearchLine(searchLine);
         int amountOfSearchResults  = searchPageObject.getAmountOfFoundArticles();
@@ -53,7 +54,7 @@ public class SearchTests extends CoreTestCase {
     public void testAmountOfEmptySearch() {
 
         String searchLine = "asdfkkajhsdgfhg";
-        SearchPageObject searchPageObject = new SearchPageObject(driver);
+        SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.initSearchInput();
         searchPageObject.typeSearchLine(searchLine);
         searchPageObject.waitForEmptyResultLabel();
