@@ -2,17 +2,21 @@ package libs.ui;
 
 import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
-public class WelcomePageObject extends MainPageObject {
+abstract public class WelcomePageObject extends MainPageObject {
 
-    private static final String
-    STEP_LEARN_MORE_LINK = "xpath://XCUIElementTypeStaticText[@name=\"Узнать подробнее о Википедии\"]",
-    STEP_NEW_WAYS_TO_EXPLORE_TEXT = "xpath://XCUIElementTypeStaticText[@name=\"Новые способы изучения\"]",
-    STEP_ADD_OR_EDIT_PREFERRED_LANG_LINK = "xpath://XCUIElementTypeStaticText[@name=\"Добавить или изменить предпочтительные языки\"]",
-    STEP_LEAN_MORE_ABOUT_DATA_COLLECTED_LINK = "xpath://XCUIElementTypeStaticText[@name=\"Узнайте больше о нашей политике конфиденциальности и условиях использования.\"]",
-    NEXT_LINK = "xpath://XCUIElementTypeStaticText[@name=\"Далее\"]",
-    GET_STARTED_BUTTON = "xpath://XCUIElementTypeButton[@name=\"Начать\"]",
-    SKIP = "xpath://XCUIElementTypeStaticText[@name='Пропустить']";
+    protected static String
+            STEP_LEARN_MORE_LINK,
+            STEP_NEW_WAYS_TO_EXPLORE_TEXT,
+            STEP_ADD_OR_EDIT_PREFERRED_LANG_LINK,
+            STEP_LEAN_MORE_ABOUT_DATA_COLLECTED_LINK,
+            NEXT_LINK,
+            GET_STARTED_BUTTON,
+            ONBORDING_FOR_SWIPE,
+            ONBORDING_ACCEPT_BUTTON,
+            MAIN_PAGE,
+            SKIP;
 
 
     public WelcomePageObject(AppiumDriver driver) {
@@ -43,7 +47,22 @@ public void clickGetStartedButton() {
 
 public void clickSkip() {
         this.waitForElementAndClick(SKIP, "Cannot find and click Skip button", 5);
-
 }
+
+    public void swipeOnbording() {
+        swipeElementToLeft(ONBORDING_FOR_SWIPE,
+                "Main page of Onbording not found");
+    }
+
+    public void clickAcceptButtonOnOnbording() {
+        waitForElementAndClick(ONBORDING_ACCEPT_BUTTON,
+                "Button Accept not found",
+                10);
+    }
+
+    public boolean assertMainPagePresent() {
+        WebElement element = waitForElementPresent(MAIN_PAGE, "Main page not found", 5);
+        return element.isEnabled();
+    }
 
 }

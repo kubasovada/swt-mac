@@ -1,5 +1,7 @@
 import libs.CoreTestCase;
 import libs.ui.MainPageObject;
+import libs.ui.WelcomePageObject;
+import libs.ui.factories.WelcomePageFactory;
 import org.junit.Test;
 
 public class Lesson4Ex5 extends CoreTestCase {
@@ -7,12 +9,13 @@ public class Lesson4Ex5 extends CoreTestCase {
     @Test
     public void testSwipeOnbording() {
 
-        MainPageObject mainPageObject = new MainPageObject(driver);
-        mainPageObject.swipeOnbording();
-        mainPageObject.swipeOnbording();
-        mainPageObject.swipeOnbording();
-        mainPageObject.clickAcceptButtonOnOnbording();
-        boolean isElementPresent = mainPageObject.assertMainPagePresent();
+        WelcomePageObject welcomePageObject = WelcomePageFactory.get(driver);
+        welcomePageObject.swipeOnbording();
+        welcomePageObject.swipeOnbording();
+        welcomePageObject.swipeOnbording();
+        welcomePageObject.clickAcceptButtonOnOnbording();
+
+        boolean isElementPresent = welcomePageObject.assertMainPagePresent();
         assertTrue("Cannot find main page Wikipedia",
                 isElementPresent);
     }

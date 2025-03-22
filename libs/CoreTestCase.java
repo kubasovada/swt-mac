@@ -4,6 +4,7 @@ import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import junit.framework.TestCase;
 import libs.ui.WelcomePageObject;
+import libs.ui.factories.WelcomePageFactory;
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
@@ -53,7 +54,7 @@ public class CoreTestCase extends TestCase {
 
     private void skipWelcomePageForIosApp() {
         if (Platform.getInstance().isIOS()) {
-            WelcomePageObject welcomePageObject = new WelcomePageObject(driver);
+            WelcomePageObject welcomePageObject = WelcomePageFactory.get(driver);
             welcomePageObject.clickSkip();
         }
     }
