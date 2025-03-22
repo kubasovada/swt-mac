@@ -14,6 +14,7 @@ public class Platform {
     private static final String PLATFORM_ANDROID = "android";
     private static final String APPIUM_URL = "http://127.0.0.1:4723";
 
+    //паттерн проектирования синглтон. объект класса создаётся один раз, хранится в поле
     private static Platform instance;
 
     private Platform() {}
@@ -63,11 +64,14 @@ public class Platform {
     private DesiredCapabilities getIOSDesiredCapabilities() {
         DesiredCapabilities capabilities = new DesiredCapabilities();
 
-        capabilities.setCapability("platformName", "iOS");
+        capabilities.setCapability("platformName", "ios");
+//        capabilities.setCapability("appium:deviceName", "iPhone 14");
+//        capabilities.setCapability("appium:platformVersion", "16.4");
         capabilities.setCapability("appium:deviceName", "iPhone 15");
         capabilities.setCapability("appium:platformVersion", "17.5");
         capabilities.setCapability("appium:automationName", "XCUITest");
-        capabilities.setCapability("appium:app", "/Users/darya/Desktop/JavaAppiumAutomation/apks/Wikipedia772.app");
+        capabilities.setCapability("appium:app", "/Users/darya/Desktop/JavaAppiumAutomation/apks/Wikipedia693.app");
+        //capabilities.setCapability("appium:app", "/Users/darya/Desktop/JavaAppiumAutomation/apks/Wikipedia745.app");
         return capabilities;
     }
 

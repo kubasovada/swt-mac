@@ -1,6 +1,7 @@
 import libs.CoreTestCase;
 import libs.ui.ArticlePageObject;
 import libs.ui.SearchPageObject;
+import libs.ui.factories.ArticlePageObjectFactory;
 import libs.ui.factories.SearchPageObjectFactory;
 import org.junit.Test;
 
@@ -17,7 +18,7 @@ public class Lesson4Ex6 extends CoreTestCase {
         searchPageObject.typeSearchLine(searchLine);
         searchPageObject.clickByArticleWithSubstring(articleTitle);
 
-        ArticlePageObject articlePageObject = new ArticlePageObject(driver);
+        ArticlePageObject articlePageObject = ArticlePageObjectFactory.get(driver);
         boolean isElementPresent = articlePageObject.assertElementPresent();
 
         assertTrue("Cannot find title Java (programming language)",

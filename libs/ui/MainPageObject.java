@@ -2,6 +2,7 @@ package libs.ui;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.TouchAction;
+import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
@@ -15,6 +16,7 @@ import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
+import libs.Platform;
 
 public class MainPageObject {
     protected AppiumDriver driver;
@@ -57,7 +59,8 @@ public class MainPageObject {
 
 
     public void swipeUpQuick() {
-        swipeUp(200);
+        //swipeUp(200);
+        scroll(200);
     }
 
     public void swipeUpToFindElement(String locator, String errorMessage, int maxSwipes) {
@@ -68,8 +71,7 @@ public class MainPageObject {
                 waitForElementPresent(locator, "error", 0);
                 return;
             }
-            //swipeUpQuick();
-            swipeElementToFooter(locator, "");
+            swipeUpQuick();
             ++alreadySwiped;
         }
     }
@@ -114,11 +116,11 @@ public class MainPageObject {
         return element;
     }
 
-    public void skipOnboarding() {
-        waitForElementAndClick(ONBORDING_SKIP_BUTTON,
-                "Cannot find skip button in Onboarding",
-                5);
-    }
+//    public void skipOnboarding() {
+//        waitForElementAndClick(ONBORDING_SKIP_BUTTON,
+//                "Cannot find skip button in Onboarding",
+//                5);
+//    }
 
     public void swipeOnbording() {
         swipeElementToLeft(ONBORDING_FOR_SWIPE,
@@ -187,11 +189,22 @@ public class MainPageObject {
         int end_y = middle_y;
 
         // Выполняем свайп с начальной точки до конечной с заданной продолжительностью.
-        this.swipe(
-                new Point(start_x, start_y),
-                new Point(end_x, end_y),
-                Duration.ofMillis(550)  // Устанавливаем продолжительность свайпа 550 миллисекунд.
-        );
+
+        if (Platform.getInstance().isAndroid()) {
+            this.swipe(
+                    new Point(start_x, start_y),
+                    new Point(end_x, end_y),
+                    Duration.ofMillis(550)  // Устанавливаем продолжительность свайпа 550 миллисекунд.
+            );
+        } else {
+            int offset_x = ( -1 * element.getSize().getWidth());
+
+            this.swipe(
+                    new Point(start_x, start_y),
+                    new Point(offset_x, 0),
+                    Duration.ofMillis(550)  // Устанавливаем продолжительность свайпа 550 миллисекунд.
+            );
+        }
     }
 
     public void swipeElementToFooter(String locator, String error_message) {
@@ -230,8 +243,8 @@ public class MainPageObject {
 
         // Выполняем свайп с начальной точки до конечной с заданной продолжительностью.
         this.swipe(
-                new Point(x, start_y),
                 new Point(x, end_y),
+                new Point(x, start_y),
                 Duration.ofMillis(550)  // Устанавливаем продолжительность свайпа 550 миллисекунд.
         );
     }
@@ -268,5 +281,72 @@ public class MainPageObject {
         } else {
             throw  new IllegalArgumentException("Cannot get type of locator " + locatorWithType);
         }
+    }
+
+    // есть элемент на странице или нет по его положению по оси Y в отношении к длине всей странице
+    public boolean isElementLocatedOnTheScreen(String locator) {
+        // находим элемент по локатору и получаем расположение по оси Y
+        int elementLocationByY = this.waitForElementPresent(locator, "Cannot find element by locator", 5).getLocation().getY();
+        int screenSizeByY = driver.manage().window().getSize().getHeight(); // длина всего экрана
+        return elementLocationByY < screenSizeByY; // пока переменная больше, чем размер экрана по высоте, то false
+    }
+
+    public void swipeUpTillElementAppear(String locator, String errorMessage, int max_swipes) {
+      int already_swiped = 0;
+      while (!this.isElementLocatedOnTheScreen(locator)) {
+          if (already_swiped > max_swipes) {
+              Assert.assertTrue(errorMessage, this.isElementLocatedOnTheScreen(locator));
+          }
+          swipeUpQuick();
+          ++already_swiped;
+      }
+    }
+
+    public void scroll(int timeOfScroll)
+    {
+        Dimension size = driver.manage().window().getSize();
+
+        int startY = (int) (size.height * 0.70);
+        int endY = (int) (size.height * 0.30);
+        int centerX = size.width / 2;
+//        System.out.println(size);
+//        System.out.println(startY);
+//        System.out.println(endY);
+
+        PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH,"finger");
+        Sequence swipe = new Sequence(finger,1)
+
+                //Двигаем палец на начальную позицию
+                .addAction(finger.createPointerMove(Duration.ofSeconds(0),
+                        PointerInput.Origin.viewport(), centerX, startY))
+                //Палец прикасается к экрану
+                .addAction(finger.createPointerDown(0))
+
+                //Палец двигается к конечной точке
+                .addAction(finger.createPointerMove(Duration.ofMillis(timeOfScroll),
+                        PointerInput.Origin.viewport(), centerX, endY))
+
+                //Убираем палец с экрана
+                .addAction(finger.createPointerUp(0));
+
+        //Выполняем действия
+        driver.perform(Arrays.asList(swipe));
+    }
+
+    public void clickElementToTheRightUpperCorner(String locator, String errorMessage) {
+        WebElement element = waitForElementPresent(locator, errorMessage);
+
+        int right_x = element.getLocation().getX();
+        int upper_y = element.getLocation().getY();
+        int lower_y = upper_y + element.getSize().getHeight();
+        int middle_y = (upper_y + lower_y) /2;
+        int width = element.getSize().getWidth();
+
+        int pointToClickX = (right_x + width) - 3;
+        int pointToClickY = middle_y;
+
+        TouchAction action = new TouchAction(driver);
+        action.tap(pointToClickX, pointToClickY).perform();
+
     }
 }

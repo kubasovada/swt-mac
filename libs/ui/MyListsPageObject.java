@@ -2,12 +2,15 @@ package libs.ui;
 
 import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.By;
+import libs.Platform;
 
-public class MyListsPageObject extends MainPageObject{
-    public static final String
-    MODAL = "xpath://android.widget.Button[@resource-id=\"org.wikipedia:id/negativeButton\"]",
-    FOLDER_NAME_TMPL = "xpath://android.widget.TextView[@resource-id=\"org.wikipedia:id/item_title\" and @text='{FOLDER_NAME}']",
-    ARTICLE_TITLE_TMPL = "xpath://*[@text='{TITLE}']";
+abstract public class MyListsPageObject extends MainPageObject{
+    protected static  String
+    MODAL,
+    FOLDER_NAME_TMPL,
+    ARTICLE_TITLE_TMPL,
+    TAB_LIST,
+    DELETE_ARTICLE_BUTTON;
 
     //Java (programming language)
     public MyListsPageObject(AppiumDriver driver) {
@@ -30,6 +33,14 @@ public class MyListsPageObject extends MainPageObject{
                 "Cannot find folder name" + folderName, 5);
     }
 
+    public void openFolderByNameiOS (String folderName) {
+        String folderNameXPath = getFolderXpathWithName(folderName);
+        this.waitForElementAndClick(MODAL, "not now", 5);
+        this.waitForElementAndClick(TAB_LIST, "Cannot find tab", 5);
+        this.waitForElementAndClick(folderNameXPath,
+                "Cannot find folder name" + folderName, 5);
+    }
+
     public void waitForArticleToAppear(String articleTitle) {
         String articleXpath = getSavedArticleXPathByTitle(articleTitle);
         this.waitForElementPresent(articleXpath, "Saved article not present with title " + articleTitle, 15);
@@ -46,6 +57,11 @@ public class MyListsPageObject extends MainPageObject{
         String articleXpath = getSavedArticleXPathByTitle(articleTitle);
         this.waitForArticleToAppear(articleTitle);
         this.swipeElementToLeft(articleXpath, "Cannot find saved article");
+
+        if (Platform.getInstance().isIOS()) {
+            //this.clickElementToTheRightUpperCorner(articleXpath, "Cannot find saved article");
+            waitForElementAndClick(DELETE_ARTICLE_BUTTON, "Cannot find saved article", 5);
+        }
         this.waitForArticleToDisappear(articleTitle);
     }
 

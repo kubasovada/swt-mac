@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 abstract public class SearchPageObject extends MainPageObject{
 
     protected static String
+    ONBORDING_SKIP_BUTTON,
     SEARCH_INIT_ELEMENT,
     SEARCH_INPUT,
     SEARCH_CANCEL_BUTTON,
@@ -26,6 +27,12 @@ abstract public class SearchPageObject extends MainPageObject{
 
     public SearchPageObject(AppiumDriver driver) {
         super(driver);
+    }
+
+    public void skipOnboarding() {
+        waitForElementAndClick(ONBORDING_SKIP_BUTTON,
+                "Cannot find skip button in Onboarding",
+                5);
     }
 
     public void initSearchInput()
@@ -79,7 +86,7 @@ abstract public class SearchPageObject extends MainPageObject{
     }
 
     public void waitForListResult() {
-        waitForElementPresent(SEARCH_RESULTS_LIST,
+        waitForElementPresent(SEARCH_RESULT_ELEMENT,
                 "Cannot find search result list", 5);
     }
 

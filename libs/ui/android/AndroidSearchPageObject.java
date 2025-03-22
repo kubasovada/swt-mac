@@ -6,6 +6,7 @@ import libs.ui.SearchPageObject;
 public class AndroidSearchPageObject extends SearchPageObject {
 
     static {
+    ONBORDING_SKIP_BUTTON =  "xpath://android.widget.Button[@resource-id='org.wikipedia:id/fragment_onboarding_skip_button']";
     SEARCH_INIT_ELEMENT ="xpath://android.widget.TextView[@text=\"Search Wikipedia\"]";
     SEARCH_INPUT ="xpath://android.widget.EditText[@resource-id=\"org.wikipedia:id/search_src_text\"]";
     SEARCH_CANCEL_BUTTON ="xpath://android.widget.ImageView[@content-desc=\"Clear query\"]";

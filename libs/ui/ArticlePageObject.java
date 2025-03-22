@@ -3,20 +3,22 @@ package libs.ui;
 import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import libs.Platform;
 
-public class ArticlePageObject extends MainPageObject {
-    private static final String
-    TITLE = "xpath://android.widget.TextView[@text=\"Java (programming language)\"]",
-    TITLE2 = "xpath://android.widget.TextView[@text=\"Appium\"]",
-    FOOTER_ELEMENT = "xpath://android.widget.TextView[@text=\"View article in browser\"]",
-    SAVE_ARTICLE_BUTTON = "xpath://android.widget.TextView[@content-desc=\"Save\"]",
-    SAVE_IN_MODAL = "xpath://android.widget.Button[@resource-id=\"org.wikipedia:id/snackbar_action\"]",
-    MY_LIST_NAME_INPUT = "xpath://android.widget.EditText[@resource-id=\"org.wikipedia:id/text_input\"]",
-    OK_BUTTON_IN_MODAL = "xpath://android.widget.Button[@resource-id=\"android:id/button1\"]",
-    NAVIGATE_BACK = "xpath://android.widget.ImageButton[@content-desc=\"Navigate up\"]",
-    CLEAR_QUERY = "xpath://android.widget.ImageView[@content-desc=\"Clear query\"]",
-    CLICK_TO_CLOSE_KEYBORD_MP = "xpath://android.widget.ImageView[@resource-id=\"org.wikipedia:id/view_announcement_header_image\"]",
-    SEARCH_EMPTY_MESSAGE = "xpath://android.widget.TextView[@resource-id='org.wikipedia:id/search_empty_message']";
+abstract public class ArticlePageObject extends MainPageObject {
+    protected static String
+    TITLE,
+    TITLE2,
+    FOOTER_ELEMENT,
+    SAVE_ARTICLE_BUTTON,
+    SAVE_IN_MODAL,
+    MY_LIST_NAME_INPUT,
+    OK_BUTTON_IN_MODAL,
+    NAVIGATE_BACK,
+    CLEAR_QUERY,
+    CLICK_TO_CLOSE_KEYBORD_MP,
+    iOS_CREATE_NEW_LIST_BUTTON,
+    SEARCH_EMPTY_MESSAGE;
 
 
     public ArticlePageObject(AppiumDriver driver) {
@@ -34,12 +36,22 @@ public class ArticlePageObject extends MainPageObject {
 
     public String getArticleTitle() {
         WebElement titleElement = waitForTitleElement();
-        return titleElement.getText();
+        if (Platform.getInstance().isAndroid()) {
+            return titleElement.getText();
+        } else {
+            return titleElement.getText();
+        }
+
     }
 
     public void swipeToFooter() {
-        this.swipeUpToFindElement(FOOTER_ELEMENT,
-                "Cannot find rhe end of the article", 20);
+        if (Platform.getInstance().isAndroid()) {
+            this.swipeUpToFindElement(FOOTER_ELEMENT,
+                    "Cannot find rhe end of the article", 40);
+        } else {
+            this.swipeUpTillElementAppear(FOOTER_ELEMENT,
+            "Cannot find the end of article", 100);
+        }
     }
 
     public void addArticleToMyList(String folderName) {
@@ -73,6 +85,16 @@ public class ArticlePageObject extends MainPageObject {
                 5);
     }
 
+    public void closeArticleiOS() {
+
+        this.waitForElementAndClick(NAVIGATE_BACK,
+                "back",
+                5);
+        this.waitForElementAndClick(CLEAR_QUERY,
+                "Cannot find Cancel button",
+                5);
+    }
+
     public String getTextFromElement() {
         WebElement element  = waitForElementPresent(SEARCH_EMPTY_MESSAGE,
                 "Cannot find search empty message", 15);
@@ -83,6 +105,16 @@ public class ArticlePageObject extends MainPageObject {
         By by = this.getLocatorByString(TITLE);
         WebElement element = driver.findElement(by);
         return element.isEnabled();
+    }
+
+    public void addArticlesToMySaved(String folderNAme) {
+        this.waitForElementAndClick(SAVE_ARTICLE_BUTTON, "Cannot find Save article button", 5);
+        waitForElementAndClick(SAVE_IN_MODAL, "Cannot find locator in modal", 5);
+        waitForElementAndClick(iOS_CREATE_NEW_LIST_BUTTON, "", 5);
+        waitForElementAndSendKeys(MY_LIST_NAME_INPUT, folderNAme, "", 5);
+        waitForElementAndClick(OK_BUTTON_IN_MODAL, "", 5);
+
+
     }
 
 }

@@ -6,15 +6,16 @@ import libs.ui.SearchPageObject;
 public class iOSSearchPageObject extends SearchPageObject {
 
     static {
-        SEARCH_INIT_ELEMENT ="xpath://XCUIElementTypeSearchField[@name='Поиск по Википедии']";
-        SEARCH_INPUT ="xpath:(//XCUIElementTypeStaticText[@name=\"Раздел Википедии: русский\"])[1]";
-        SEARCH_CANCEL_BUTTON ="xpath://XCUIElementTypeButton[@name=\"Очистить текст\"]";
+        ONBORDING_SKIP_BUTTON = "xpath://XCUIElementTypeStaticText[@name='Skip']";
+        SEARCH_INIT_ELEMENT ="xpath://XCUIElementTypeSearchField[@name='Search Wikipedia']";
+        SEARCH_INPUT ="xpath://XCUIElementTypeSearchField[@name='Search Wikipedia']";
+        SEARCH_CANCEL_BUTTON ="xpath://XCUIElementTypeStaticText[@name='Cancel']";
+        //SEARCH_RESULT_BY_SUBSTRING_TPL ="xpath://XCUIElementTypeStaticText[@name=\"Java (programming language)\"]";
         SEARCH_RESULT_BY_SUBSTRING_TPL ="xpath://XCUIElementTypeStaticText[contains(@name, '{SUBSTRING}')]";
 
-        SEARCH_RESULT_ELEMENT ="xpath://android.widget.ImageView[@resource-id=\"org.wikipedia:id/page_list_item_image\"]";
-        SEARCH_EMPTY_RESULT_ELEMENT ="xpath://XCUIElementTypeStaticText[@name=\"Ничего не найдено\"]";
-        SEARCH_RESULTS_LIST ="xpath://XCUIElementTypeCollectionView[@name=\"Результаты поиска\"]";
-
+        SEARCH_RESULT_ELEMENT ="xpath://XCUIElementTypeCollectionView]";
+        SEARCH_EMPTY_RESULT_ELEMENT ="xpath:///XCUIElementTypeStaticText[@name='No results found']";
+        SEARCH_RESULTS_LIST ="xpath://XCUIElementTypeCollectionView]";
     }
 
     public iOSSearchPageObject(AppiumDriver driver) {

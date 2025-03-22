@@ -17,14 +17,6 @@ public class SearchTests extends CoreTestCase {
     }
 
     @Test
-    public void secondTest() {
-
-        SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
-        searchPageObject.initSearchInput();
-        searchPageObject.typeSearchLine("Java");
-    }
-
-    @Test
     public void testCancelSearch() {
 
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
